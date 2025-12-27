@@ -1,13 +1,13 @@
 {
-  "name": "pipesol-notificationbar",
-  "version": "1.0.10",
+  "name": "@pipelinesolucoes/notification",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pipeline-solucoes/cmp-barra-notificacao"
+    "url": "https://github.com/pipeline-solucoes/notification.git"
   },
-  "homepage": "https://github.com/pipeline-solucoes/cmp-barra-notificacao#readme",
+  "homepage": "https://github.com/pipeline-solucoes/notification#readme",
   "bugs": {
-    "url": "https://github.com/pipeline-solucoes/cmp-barra-notificacao/issues"
+    "url": "https://github.com/pipeline-solucoes/notification/issues"
   },
   "publishConfig": {
     "access": "public"
@@ -50,7 +50,7 @@
     "@types/react-dom": "^19",    
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
-    "next": "^15.2.3",
+    "next": "^16.0.7",
     "typescript": "^5"
   }
 }
