@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "module": "ESNext",
+    "outDir": "./dist",
+    "rootDirs": [
+      "./src"
+    ],
+    "declaration": true,
+    "moduleResolution": "node",
+    "noEmit": false,
+    "forceConsistentCasingInFileNames": true,            
+    "declarationDir": "dist",
+    "sourceMap": true,
+    "baseUrl": ".",                        
+    "emitDeclarationOnly": false,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+  },
+  "include": ["src/**/*"], 
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

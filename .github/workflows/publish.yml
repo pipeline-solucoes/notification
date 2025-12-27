@@ -1,0 +1,61 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
+
+      - name: Upgrade npm (Trusted Publishing)
+        run: npm i -g npm@^11.5.1
+
+      - name: Show versions
+        run: |
+          node -v
+          npm -v
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Check tag matches package.json version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          echo "Tag version: $TAG"
+          echo "Package version: $PKG_VERSION"
+
+          if [ "$TAG" != "$PKG_VERSION" ]; then
+            echo "❌ Tag ($TAG) não corresponde à versão do package.json ($PKG_VERSION)"
+            exit 1
+          fi
+
+      - name: Publish (latest or beta)
+        run: |
+          TAG_NAME="${GITHUB_REF_NAME}"
+
+          if [[ "$TAG_NAME" == *"-beta."* ]]; then
+            echo "Publishing as beta dist-tag..."
+            npm publish --access public --tag beta --provenance
+          else
+            echo "Publishing as latest dist-tag..."
+            npm publish --access public --provenance
+          fi
