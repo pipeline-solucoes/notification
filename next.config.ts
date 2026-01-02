@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
   },
 
   // Transpila pacotes específicos
-  transpilePackages: ["pipesol-notificationbar"],
+  transpilePackages: ["notification"],
 
   // Configura saída standalone
   output: "standalone",
