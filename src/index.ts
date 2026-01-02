@@ -5,7 +5,7 @@ export { default as TermsAndPrivacyBar} from './components/TermsAndPrivacyBar';
 export { default as TermsAndPrivacyCard} from './components/TermsAndPrivacyCard';
 
 export { default as ConfirmMessage} from './components/ConfirmMessage';
-export { default as useConfirmMessage} from './components/ConfirmMessage';
+export { default as useConfirmMessage} from './hooks/useConfirmMessage';
 
 export type { BorderProps } from "./types/style/BorderProps";
 export type { LayoutProps } from "./types/style/LayoutProps";
