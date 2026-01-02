@@ -5,6 +5,7 @@ import { CSSObject, styled, TypographyVariant, useTheme } from '@mui/material/st
 import Box from '@mui/material/Box';
 import { BorderProps, ColorProps, LayoutProps, PipelineSolucoesTypographyTokens } from '@pipelinesolucoes/theme';
 import { ButtonStyled } from '../style/ButtonFormStyled';
+import { fbmargin } from '../constant';
 
 interface ConfirmMessageProps  extends Pick<ColorProps, 'background' | 'color'>,
   BorderProps,
@@ -76,7 +77,7 @@ const StyledRoot = styled(Box, {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-between',
-  gap: 16,
+  gap: '32px',
 }));
 
 const LeftContent = styled('div')(() => ({
@@ -102,8 +103,9 @@ const MessageWrapper = styled('div')(() => ({
 const ActionsWrapper = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'flex-end',
   gap: 8,
-  flexShrink: 0,
+  width: '100%',
 }));
 
 
@@ -240,7 +242,7 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
   const bdButtonConfirm = borderConfirmButton ?? themeNotification?.buttons?.primary?.border ?? undefined;
   const bsButtonConfirm = boxShadowConfirmButton ?? themeNotification?.buttons?.primary?.boxShadow ?? undefined;  
   const pButtonConfirm = paddingConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;
-  const mButtonConfirm = marginConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;
+  const mButtonConfirm = marginConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? fbmargin;
   const wButtonConfirm = widthConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;
   const hButtonConfirm = heightConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;
 
@@ -257,7 +259,7 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
   const bdButtonCancel = borderCancelButton ?? themeNotification?.buttons?.secondary?.border ?? undefined;
   const bsButtonCancel = boxShadowCancelButton ?? themeNotification?.buttons?.secondary?.boxShadow ?? undefined;  
   const pButtonCancel = paddingCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? undefined;
-  const mButtonCancel = marginCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? undefined;
+  const mButtonCancel = marginCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? fbmargin;
   const wButtonCancel = widthCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? undefined;
   const hButtonCancel = heightCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? undefined;
 
