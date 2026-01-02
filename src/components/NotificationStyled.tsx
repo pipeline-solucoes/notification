@@ -1,4 +1,4 @@
-import { BorderProps } from "@/types/style/BorderProps";
+import { BorderProps } from "../types/style/BorderProps";
 import { COLOR_STYLE_FORWARD_PROPS, ColorProps } from "../types/style/ColorProps";
 import { styled } from "@mui/material";
 

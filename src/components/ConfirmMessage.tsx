@@ -4,7 +4,7 @@ import React from 'react';
 import { CSSObject, styled, TypographyVariant, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { BorderProps, ColorProps, LayoutProps, PipelineSolucoesTypographyTokens } from '@pipelinesolucoes/theme';
-import { ButtonStyled } from '@/style/ButtonFormStyled';
+import { ButtonStyled } from '../style/ButtonFormStyled';
 
 interface ConfirmMessageProps  extends Pick<ColorProps, 'background' | 'color'>,
   BorderProps,
@@ -12,7 +12,7 @@ interface ConfirmMessageProps  extends Pick<ColorProps, 'background' | 'color'>,
 {
   icon?: React.ReactElement;
   message: string;
-  variantMessage: TypographyVariant;
+  variantMessage?: TypographyVariant;
 
   variantButton?: TypographyVariant;
 
