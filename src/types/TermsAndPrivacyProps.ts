@@ -3,6 +3,7 @@ import { TypographyVariant } from "@mui/material/styles";
 export interface TermsAndPrivacyProps {  
   url_termo_uso: string;
   url_politica_privacidade: string;
+  locale?: 'pt' | 'en';
 
   background_color?: string;  
   color?: string;

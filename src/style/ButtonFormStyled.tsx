@@ -24,8 +24,7 @@ export interface ButtonProps {
 }
 
 const BUTTON_STYLE_FORWARD_PROPS = [
-  "textButton",
-  "variantButton",
+  "textButton",  
   "backgroundButton",
   "backgroundHoverButton",
   "colorButton",

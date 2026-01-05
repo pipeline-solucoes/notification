@@ -6,6 +6,34 @@ import { parseCookies, setCookie } from 'nookies';
 import { TermsAndPrivacyProps } from '../types/TermsAndPrivacyProps';
 import { NotificationButton, NotificationLink } from './NotificationStyled';
 
+type Locale = 'pt' | 'en';
+
+const TEXTS: Record<Locale, {
+  message: string;
+  terms: string;
+  privacy: string;
+  accept: string;
+  cancel: string;
+}> = {
+  pt: {
+    message:
+      'Este site usa cookies e dados pessoais de acordo com os nossos',
+    terms: 'Termos de Uso',
+    privacy: 'Política de Privacidade',
+    accept: 'Ok',
+    cancel: 'Cancelar',
+  },
+  en: {
+    message:
+      'This website uses cookies and personal data in accordance with our',
+    terms: 'Terms of Use',
+    privacy: 'Privacy Policy',
+    accept: 'Ok',
+    cancel: 'Cancel',
+  },
+};
+
+
 const Container = styled('div', {
   shouldForwardProp: (prop) => !['show', 'background', 'borderRadius', 'border'].includes(prop as string),
 })<{ show: boolean; background: string; borderRadius: string; border: string;
@@ -71,6 +99,7 @@ const readConsentCookie = (): CookieConsentValue => {
  * e o usuário já rolou a página (scrollTop > 0), evitando sobreposição no banner inicial.
  * Ao clicar em "Ok" ou "Cancelar", o cookie é persistido por 1 ano e o card é ocultado.
  *
+ * @param {'pt' | 'en'} [locale = 'pt'] Idioma.
  * @param {string} url_termo_uso URL para a página de Termos de Uso. Obrigatório.
  * @param {string} url_politica_privacidade URL para a página de Política de Privacidade. Obrigatório.
  * @param {string} [background_color='transparent'] Cor de fundo do container do card.
@@ -119,6 +148,7 @@ const readConsentCookie = (): CookieConsentValue => {
 const TermsAndPrivacyCard: React.FC<TermsAndPrivacyProps> = (props) => {
 
   const {
+    locale = 'pt',
     url_termo_uso,
     url_politica_privacidade,
 
@@ -144,6 +174,7 @@ const TermsAndPrivacyCard: React.FC<TermsAndPrivacyProps> = (props) => {
     variantButton = 'caption',
   } = props;
 
+  const t = TEXTS[locale];
   const [showNotification, setShowNotification] = useState<boolean>(false);
   const [cookieConsent, setCookieConsent] = useState<CookieConsentValue>(null);
 
@@ -215,7 +246,7 @@ const TermsAndPrivacyCard: React.FC<TermsAndPrivacyProps> = (props) => {
     <Container show={showNotification} background={background_color} borderRadius={border_radius} border={border}>
       <Content>
         <Typography component="div" variant={variantTexto} color={color} sx={{ width: '100%' }}>
-          Este site usa cookies e dados pessoais de acordo com os nossos{' '}
+          {t.message}{' '}
           <NotificationLink
             href={url_termo_uso}
             background={background_color_link}
@@ -223,7 +254,7 @@ const TermsAndPrivacyCard: React.FC<TermsAndPrivacyProps> = (props) => {
             colorText={color_link}
             colorHover={color_hover_link}
           >
-            Termos de Uso
+            {t.terms}
           </NotificationLink>{' '}
           e{' '}
           <NotificationLink
@@ -233,9 +264,11 @@ const TermsAndPrivacyCard: React.FC<TermsAndPrivacyProps> = (props) => {
             colorText={color_link}
             colorHover={color_hover_link}
           >
-            Política de Privacidade
+            {t.privacy}
           </NotificationLink>
-          . Ao continuar navegando neste site, você declara estar ciente dessas condições.
+          . {locale === 'pt'
+            ? 'Ao continuar navegando neste site, você declara estar ciente dessas condições.'
+            : 'By continuing to browse this website, you acknowledge and agree to these conditions.'}
         </Typography>
 
         <ContentButton>
@@ -248,7 +281,7 @@ const TermsAndPrivacyCard: React.FC<TermsAndPrivacyProps> = (props) => {
             onClick={handleReject}
           >
             <Typography variant={variantButton} component="span">
-              Cancelar
+              {t.cancel}
             </Typography>
           </NotificationButton>
 
@@ -261,7 +294,7 @@ const TermsAndPrivacyCard: React.FC<TermsAndPrivacyProps> = (props) => {
             onClick={handleAccept}
           >
             <Typography variant={variantButton} component="span">
-              Ok
+              {t.accept}
             </Typography>
           </NotificationButton>
         </ContentButton>
