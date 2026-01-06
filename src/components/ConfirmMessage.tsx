@@ -75,7 +75,7 @@ const StyledRoot = styled(Box, {
   boxShadow: boxShadow ?? 'none',
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   justifyContent: 'space-between',
   gap: '32px',
 }));
@@ -104,7 +104,7 @@ const ActionsWrapper = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
-  gap: 8,
+  gap: '16px',
   width: '100%',
 }));
 
@@ -194,7 +194,6 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
   widthCancelButton,  
   heightCancelButton,
   paddingCancelButton,
-  marginCancelButton,
 
   backgroundConfirmButton,
   backgroundHoverConfirmButton,
@@ -206,7 +205,6 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
   widthConfirmButton,  
   heightConfirmButton,
   paddingConfirmButton,
-  marginConfirmButton,
 
   onCancel,
   onConfirm,
@@ -241,8 +239,7 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
   const brButtonConfirm = borderRadiusConfirmButton ?? themeNotification?.buttons?.primary?.borderRadius ?? undefined;
   const bdButtonConfirm = borderConfirmButton ?? themeNotification?.buttons?.primary?.border ?? undefined;
   const bsButtonConfirm = boxShadowConfirmButton ?? themeNotification?.buttons?.primary?.boxShadow ?? undefined;  
-  const pButtonConfirm = paddingConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;
-  const mButtonConfirm = marginConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? fbmargin;
+  const pButtonConfirm = paddingConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;  
   const wButtonConfirm = widthConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;
   const hButtonConfirm = heightConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;
 
@@ -259,7 +256,6 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
   const bdButtonCancel = borderCancelButton ?? themeNotification?.buttons?.secondary?.border ?? undefined;
   const bsButtonCancel = boxShadowCancelButton ?? themeNotification?.buttons?.secondary?.boxShadow ?? undefined;  
   const pButtonCancel = paddingCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? undefined;
-  const mButtonCancel = marginCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? fbmargin;
   const wButtonCancel = widthCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? undefined;
   const hButtonCancel = heightCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? undefined;
 
@@ -303,7 +299,7 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
           widthButton={wButtonCancel}
           heightButton={hButtonCancel}
           paddingButton={pButtonCancel}
-          marginButton={mButtonCancel}  
+          marginButton="0"  
           typo={typoCancel}     
           onClick={onCancel}
           disabled={cancelDisabled}
@@ -323,7 +319,7 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
           widthButton={wButtonConfirm}
           heightButton={hButtonConfirm}
           paddingButton={pButtonConfirm}
-          marginButton={mButtonConfirm}  
+          marginButton="0"  
           typo={typoConfirm}  
           onClick={onConfirm}
           disabled={confirmDisabled}
