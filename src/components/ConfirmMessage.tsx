@@ -119,6 +119,7 @@ export const MessageStyle = styled('div', {
       }),
 
   ...(typo ?? {}),
+  lineHeight: '1',
 }));
 
 const ActionsWrapper = styled('div')(() => ({
@@ -282,8 +283,6 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
       color={clnotific}
       borderRadius={brnotific}
       boxShadow={bsnotific}
-      role="status"
-      aria-live="polite"
     >
       <LeftContent>
         {icon ? <IconWrapper aria-hidden="true">{icon}</IconWrapper> : null}
