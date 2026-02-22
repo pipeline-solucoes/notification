@@ -71,6 +71,7 @@ const StyledRoot = styled(Box, {
   borderRadius: borderRadius ?? 12,
   boxShadow: boxShadow ?? 'none',
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: 12,
