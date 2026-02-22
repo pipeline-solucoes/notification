@@ -5,26 +5,27 @@ import { CSSObject, styled, TypographyVariant, useTheme } from '@mui/material/st
 import Box from '@mui/material/Box';
 import { BorderProps, ColorProps, LayoutProps, PipelineSolucoesTypographyTokens } from '@pipelinesolucoes/theme';
 import { ButtonStyled } from '../style/ButtonFormStyled';
-import { fbmargin } from '../constant';
 
-interface ConfirmMessageProps  extends Pick<ColorProps, 'background' | 'color'>,
-  BorderProps,
-  LayoutProps
-{
+interface ConfirmMessageProps
+  extends Pick<ColorProps, 'background' | 'color'>,
+    BorderProps,
+    LayoutProps {
+
   icon?: React.ReactElement;
+  
   message: string;
   variantMessage?: TypographyVariant;
+  allowLineBreak?: boolean;
 
   variantButton?: TypographyVariant;
-
   backgroundCancelButton?: string;
   backgroundHoverCancelButton?: string;
   colorCancelButton?: string;
-  colorHoverCancelButton?: string;  
+  colorHoverCancelButton?: string;
   borderRadiusCancelButton?: string;
-  borderCancelButton?: string;  
+  borderCancelButton?: string;
   boxShadowCancelButton?: string;
-  widthCancelButton?: string;  
+  widthCancelButton?: string;
   heightCancelButton?: string;
   paddingCancelButton?: string;
   marginCancelButton?: string;
@@ -32,11 +33,11 @@ interface ConfirmMessageProps  extends Pick<ColorProps, 'background' | 'color'>,
   backgroundConfirmButton?: string;
   backgroundHoverConfirmButton?: string;
   colorConfirmButton?: string;
-  colorHoverConfirmButton?: string;  
+  colorHoverConfirmButton?: string;
   borderRadiusConfirmButton?: string;
-  borderConfirmButton?: string;  
+  borderConfirmButton?: string;
   boxShadowConfirmButton?: string;
-  widthConfirmButton?: string;  
+  widthConfirmButton?: string;
   heightConfirmButton?: string;
   paddingConfirmButton?: string;
   marginConfirmButton?: string;
@@ -50,34 +51,29 @@ interface ConfirmMessageProps  extends Pick<ColorProps, 'background' | 'color'>,
 
 const StyledRoot = styled(Box, {
   shouldForwardProp: (prop) =>
-    ![
-      'width',
-      'height',
-      'padding',
-      'margin',
-      'background',
-      'color',
-      'borderRadius',
-      'boxShadow',
-    ].includes(prop as string),
-})<Pick<
-  ConfirmMessageProps,
-  'width' | 'height' | 'padding' | 'margin' | 'background' | 'color' | 'borderRadius' | 'boxShadow'
->>(({ width, height, padding, margin, background, color, borderRadius, boxShadow }) => ({
-  
+    !['width', 'height', 'padding', 'margin', 'background', 'color', 'borderRadius', 'boxShadow'].includes(prop as string),
+})<{
+  width?: string | number;
+  height?: string | number;
+  padding?: string | number;
+  margin?: string | number;
+  background?: string;
+  color?: string;
+  borderRadius?: string | number;
+  boxShadow?: string;
+}>(({ width, height, padding, margin, background, color, borderRadius, boxShadow }) => ({
   width: width ?? '100%',
   height: height ?? 'auto',
-  padding: padding ?? 16,
+  padding: padding ?? '16px',
   margin: margin ?? 0,
   background: background ?? '#ffffff',
   color: color ?? 'inherit',
   borderRadius: borderRadius ?? 12,
   boxShadow: boxShadow ?? 'none',
   display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   justifyContent: 'space-between',
-  gap: '32px',
+  gap: 12,
 }));
 
 const LeftContent = styled('div')(() => ({
@@ -95,34 +91,40 @@ const IconWrapper = styled('div')(() => ({
 }));
 
 const MessageWrapper = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'column',
   minWidth: 0,
+  flex: 1,
 }));
-
-const ActionsWrapper = styled('div')(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  gap: '16px',
-  width: '100%',
-}));
-
 
 export const MessageStyle = styled('div', {
-  shouldForwardProp: (prop) =>
-    !['typo'].includes(prop as string),
-})<{ typo?: CSSObject | PipelineSolucoesTypographyTokens}>
-(({ typo }) => ({
-
+  shouldForwardProp: (prop) => !['typo', 'allowLineBreak'].includes(prop as string),
+})<{
+  typo?: CSSObject | PipelineSolucoesTypographyTokens;
+  allowLineBreak?: boolean;
+}>(({ typo, allowLineBreak }) => ({
   color: 'inherit',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
+
+  ...(allowLineBreak
+    ? {
+        whiteSpace: 'pre-line', // respeita \n e ainda quebra por largura
+        overflow: 'visible',
+        textOverflow: 'unset',
+        overflowWrap: 'anywhere',
+        wordBreak: 'break-word',
+      }
+    : {
+        whiteSpace: 'normal', // quebra automática conforme largura
+        overflowWrap: 'break-word',
+        wordBreak: 'break-word',
+      }),
 
   ...(typo ?? {}),
 }));
 
+const ActionsWrapper = styled('div')(() => ({
+  display: 'flex',
+  gap: 8,
+  flexShrink: 0,
+}));
 
 /**
  * Componente que exibe uma mensagem com um ícone opcional e ações de confirmação,
@@ -138,6 +140,7 @@ export const MessageStyle = styled('div', {
  * @param {string} [boxShadow='none'] Sombra do container principal.
  * @param {React.ReactElement} [icon] Ícone do Material UI exibido à esquerda da mensagem.
  * @param {string} message Texto da mensagem exibida. Obrigatório.
+ * @param {boolean} [allowLineBreak=false] Quando `true`, permite quebra de linha e respeita `\n` no `message`.
  * @param {() => void} [onCancel] Callback disparado ao clicar em "Cancelar".
  * @param {() => void} [onConfirm] Callback disparado ao clicar em "OK".
  * @param {string} [cancelLabel='Cancelar'] Texto do botão "Cancelar".
@@ -153,7 +156,8 @@ export const MessageStyle = styled('div', {
  *   return (
  *     <ConfirmMessage
  *       icon={<WarningAmberIcon />}
- *       message="Tem certeza que deseja remover este item?"
+ *       message={"Linha 1\nLinha 2\nLinha 3"}
+ *       allowLineBreak
  *       onCancel={() => console.log('Cancelou')}
  *       onConfirm={() => console.log('Confirmou')}
  *       width={520}
@@ -184,25 +188,27 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
 
   variantButton,
 
+  allowLineBreak = false,
+
   backgroundCancelButton,
   backgroundHoverCancelButton,
   colorCancelButton,
-  colorHoverCancelButton,  
+  colorHoverCancelButton,
   borderRadiusCancelButton,
-  borderCancelButton,  
+  borderCancelButton,
   boxShadowCancelButton,
-  widthCancelButton,  
+  widthCancelButton,
   heightCancelButton,
   paddingCancelButton,
 
   backgroundConfirmButton,
   backgroundHoverConfirmButton,
   colorConfirmButton,
-  colorHoverConfirmButton,  
+  colorHoverConfirmButton,
   borderRadiusConfirmButton,
-  borderConfirmButton,  
+  borderConfirmButton,
   boxShadowConfirmButton,
-  widthConfirmButton,  
+  widthConfirmButton,
   heightConfirmButton,
   paddingConfirmButton,
 
@@ -211,7 +217,6 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
   cancelLabel = 'Cancelar',
   confirmLabel = 'OK',
 }) => {
-  
   const cancelDisabled = !onCancel;
   const confirmDisabled = !onConfirm;
 
@@ -233,13 +238,14 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
     theme.typography.body1;
 
   const bgButtonConfirm = backgroundConfirmButton ?? themeNotification?.buttons?.primary?.background ?? undefined;
-  const bgHoverButtonConfirm = backgroundHoverConfirmButton ?? themeNotification?.buttons?.primary?.backgroundHover ?? undefined;
+  const bgHoverButtonConfirm =
+    backgroundHoverConfirmButton ?? themeNotification?.buttons?.primary?.backgroundHover ?? undefined;
   const cButtonConfirm = colorConfirmButton ?? themeNotification?.buttons?.primary?.color ?? undefined;
   const cHoverButtonConfirm = colorHoverConfirmButton ?? themeNotification?.buttons?.primary?.colorHover ?? undefined;
   const brButtonConfirm = borderRadiusConfirmButton ?? themeNotification?.buttons?.primary?.borderRadius ?? undefined;
   const bdButtonConfirm = borderConfirmButton ?? themeNotification?.buttons?.primary?.border ?? undefined;
-  const bsButtonConfirm = boxShadowConfirmButton ?? themeNotification?.buttons?.primary?.boxShadow ?? undefined;  
-  const pButtonConfirm = paddingConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;  
+  const bsButtonConfirm = boxShadowConfirmButton ?? themeNotification?.buttons?.primary?.boxShadow ?? undefined;
+  const pButtonConfirm = paddingConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;
   const wButtonConfirm = widthConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;
   const hButtonConfirm = heightConfirmButton ?? themeNotification?.buttons?.primary?.padding ?? undefined;
 
@@ -249,12 +255,13 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
     theme.typography.body1;
 
   const bgButtonCancel = backgroundCancelButton ?? themeNotification?.buttons?.secondary?.background ?? undefined;
-  const bgHoverButtonCancel = backgroundHoverCancelButton ?? themeNotification?.buttons?.secondary?.backgroundHover ?? undefined;
+  const bgHoverButtonCancel =
+    backgroundHoverCancelButton ?? themeNotification?.buttons?.secondary?.backgroundHover ?? undefined;
   const cButtonCancel = colorCancelButton ?? themeNotification?.buttons?.secondary?.color ?? undefined;
   const cHoverButtonCancel = colorHoverCancelButton ?? themeNotification?.buttons?.secondary?.colorHover ?? undefined;
   const brButtonCancel = borderRadiusCancelButton ?? themeNotification?.buttons?.secondary?.borderRadius ?? undefined;
   const bdButtonCancel = borderCancelButton ?? themeNotification?.buttons?.secondary?.border ?? undefined;
-  const bsButtonCancel = boxShadowCancelButton ?? themeNotification?.buttons?.secondary?.boxShadow ?? undefined;  
+  const bsButtonCancel = boxShadowCancelButton ?? themeNotification?.buttons?.secondary?.boxShadow ?? undefined;
   const pButtonCancel = paddingCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? undefined;
   const wButtonCancel = widthCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? undefined;
   const hButtonCancel = heightCancelButton ?? themeNotification?.buttons?.secondary?.padding ?? undefined;
@@ -281,14 +288,14 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
         {icon ? <IconWrapper aria-hidden="true">{icon}</IconWrapper> : null}
 
         <MessageWrapper>
-          <MessageStyle typo={typoMessage}>
+          <MessageStyle typo={typoMessage} allowLineBreak={allowLineBreak}>
             {message}
           </MessageStyle>
         </MessageWrapper>
       </LeftContent>
-  
+
       <ActionsWrapper>
-        <ButtonStyled  
+        <ButtonStyled
           backgroundButton={bgButtonCancel}
           backgroundHoverButton={bgHoverButtonCancel}
           colorButton={cButtonCancel}
@@ -299,8 +306,8 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
           widthButton={wButtonCancel}
           heightButton={hButtonCancel}
           paddingButton={pButtonCancel}
-          marginButton="0"  
-          typo={typoCancel}     
+          marginButton="0"
+          typo={typoCancel}
           onClick={onCancel}
           disabled={cancelDisabled}
           aria-disabled={cancelDisabled}
@@ -308,7 +315,7 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
           {cancelLabel}
         </ButtonStyled>
 
-        <ButtonStyled  
+        <ButtonStyled
           backgroundButton={bgButtonConfirm}
           backgroundHoverButton={bgHoverButtonConfirm}
           colorButton={cButtonConfirm}
@@ -319,8 +326,8 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
           widthButton={wButtonConfirm}
           heightButton={hButtonConfirm}
           paddingButton={pButtonConfirm}
-          marginButton="0"  
-          typo={typoConfirm}  
+          marginButton="0"
+          typo={typoConfirm}
           onClick={onConfirm}
           disabled={confirmDisabled}
           aria-disabled={confirmDisabled}
@@ -328,7 +335,6 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
           {confirmLabel}
         </ButtonStyled>
       </ActionsWrapper>
-
     </StyledRoot>
   );
 };

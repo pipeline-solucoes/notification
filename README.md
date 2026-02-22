@@ -10,8 +10,10 @@ Este pacote faz parte do ecossistema de componentes da **Pipeline Soluções**.
 
 A biblioteca inclui os seguintes componentes:
 
-- **TermsAndPrivacyBar**  
-  
+- **ConfirmMessage**
+  Componente que exibe uma mensagem com um ícone opcional e ações de confirmação, renderizando dois botões: "Cancelar" e "OK".
+
+- **TermsAndPrivacyBar**    
 
 - **TermsAndPrivacyCard**  
   Componente que renderiza um card flutuante (fixed) para consentimento de cookies, exibindo links para **Termos de Uso** e **Política de Privacidade** e dois botões:
