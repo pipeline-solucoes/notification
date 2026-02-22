@@ -71,7 +71,6 @@ const StyledRoot = styled(Box, {
   borderRadius: borderRadius ?? 12,
   boxShadow: boxShadow ?? 'none',
   display: 'flex',
-  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: 12,
@@ -118,8 +117,7 @@ export const MessageStyle = styled('div', {
         wordBreak: 'break-word',
       }),
 
-  ...(typo ?? {}),
-  lineHeight: '1',
+  ...(typo ?? {}),  
 }));
 
 const ActionsWrapper = styled('div')(() => ({
@@ -283,6 +281,7 @@ const ConfirmMessage: React.FC<ConfirmMessageProps> = ({
       color={clnotific}
       borderRadius={brnotific}
       boxShadow={bsnotific}
+      flexDirection="column"
     >
       <LeftContent>
         {icon ? <IconWrapper aria-hidden="true">{icon}</IconWrapper> : null}
